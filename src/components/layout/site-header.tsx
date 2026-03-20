@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AppLogo } from "@/components/brand/app-logo";
 import { visibleApplets } from "@/config/applets";
 import { siteConfig } from "@/config/site";
 import { cx } from "@/lib/utils";
@@ -15,11 +16,16 @@ export function SiteHeader() {
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="min-h-11 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+            className="flex min-h-11 items-center gap-3 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
           >
-            <span className="block text-lg font-semibold tracking-[-0.04em]">{siteConfig.name}</span>
-            <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-              Launch + applets
+            <AppLogo className="h-11 w-11 shrink-0" title="" />
+            <span>
+              <span className="block text-lg font-semibold tracking-[-0.04em]">
+                {siteConfig.name}
+              </span>
+              <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+                Launch + applets
+              </span>
             </span>
           </Link>
           <span className="rounded-full border border-[var(--color-outline)] bg-white/70 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--color-muted)]">
