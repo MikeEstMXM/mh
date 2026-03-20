@@ -7,9 +7,9 @@ export const dynamic = "force-static";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: siteConfig.name,
-    short_name: "App Hub",
+    short_name: "hub",
     description: siteConfig.description,
-    start_url: withBasePath("/"),
+    start_url: withBasePath("/mh/"),
     display: "standalone",
     orientation: "portrait",
     background_color: "#f4f1ea",
