@@ -20,7 +20,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-plex-mono);
   --font-mono: var(--font-plex-mono);
   --color-background: var(--color-canvas);
   --color-foreground: var(--color-ink);
@@ -40,7 +40,7 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent 26%),
     var(--color-canvas);
   color: var(--color-ink);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-plex-mono), monospace;
 }
 
 a {

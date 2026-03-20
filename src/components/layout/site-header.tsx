@@ -11,23 +11,15 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-[var(--color-outline)] bg-[rgba(244,241,234,0.82)] backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
-          <Link
-            href="/"
-            className="min-h-11 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
-          >
-            <span className="block text-lg font-semibold tracking-[-0.04em]">{siteConfig.name}</span>
-            <span className="block font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-              Launch + applets
-            </span>
-          </Link>
-          <span className="rounded-full border border-[var(--color-outline)] bg-white/70 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--color-muted)]">
-            Vercel ready
-          </span>
-        </div>
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="shrink-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+        >
+          <span className="text-sm font-medium">{siteConfig.name}</span>
+        </Link>
 
-        <nav className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+        <nav className="flex gap-1 overflow-x-auto">
           <NavLink href="/" label="Home" isActive={pathname === "/"} />
           {visibleApplets.map((applet) => (
             <NavLink
@@ -54,10 +46,10 @@ function NavLink({ href, label, isActive }: NavLinkProps) {
     <Link
       href={href}
       className={cx(
-        "inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-medium whitespace-nowrap transition",
+        "inline-flex min-h-8 items-center rounded-md px-3 text-xs whitespace-nowrap transition",
         isActive
-          ? "border-transparent bg-[var(--color-accent)] text-white shadow-[0_10px_24px_rgba(52,113,104,0.24)]"
-          : "border-[var(--color-outline)] bg-white/75 text-[var(--color-muted)] hover:border-[var(--color-outline-strong)] hover:text-[var(--color-ink)]",
+          ? "bg-[var(--color-accent)] text-white"
+          : "text-[var(--color-muted)] hover:bg-[var(--color-outline)] hover:text-[var(--color-ink)]",
       )}
     >
       {label}

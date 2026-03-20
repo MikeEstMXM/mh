@@ -1,20 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Manrope } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/layout/site-header";
 import { deploymentConfig, withBasePath } from "@/config/deployment";
 import { PwaRegistrar } from "@/components/pwa/pwa-registrar";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
 const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +63,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[var(--color-canvas)] text-[var(--color-ink)]">
         <PwaRegistrar />
