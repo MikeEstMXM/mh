@@ -1,5 +1,11 @@
 const CACHE_NAME = "personal-app-platform-v1";
-const APP_SHELL = ["/", "/apps/notes", "/apps/timer", "/apps/ideas"];
+const basePath = self.location.pathname.replace(/\/sw\.js$/, "");
+const APP_SHELL = [
+  `${basePath}/`,
+  `${basePath}/apps/notes/`,
+  `${basePath}/apps/timer/`,
+  `${basePath}/apps/ideas/`,
+];
 
 // Foundation only:
 // replace this starter cache with a versioned offline strategy once you know

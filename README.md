@@ -7,7 +7,7 @@ A lightweight Next.js platform for a home dashboard plus small web applets in on
 - A single launch screen at `/`
 - Small applets under `/apps/<slug>`
 - Simple structure that stays readable for a non-developer owner
-- Low-friction deployment to Vercel
+- Low-friction deployment to GitHub Pages or Vercel
 - A safe starting point for future server-side API integrations
 
 ## Stack
@@ -49,6 +49,21 @@ npm run typecheck
 npm run build
 npm run format
 ```
+
+## GitHub Pages
+
+This repo is set up to deploy to GitHub Pages as a static export.
+
+What that means:
+
+- App routes and applet pages work on Pages
+- The repo automatically supports a project subpath such as `/mh`
+- A GitHub Actions workflow can publish the `out` build output
+- Server-backed features are limited on Pages because Pages is static hosting
+
+Important limitation:
+
+- `src/app/api/*` stays in the repo as a safe server-integration foundation, but GitHub Pages cannot run live secret-backed API proxies. For real server-side API calls, deploy to Vercel or another server runtime.
 
 ## Project Structure
 
@@ -123,7 +138,7 @@ Example files:
 - `src/lib/server/env.ts`
 - `src/lib/server/example-api.ts`
 
-The `/api/example` route validates input before it touches the server integration layer.
+On GitHub Pages, `/api/example` is intentionally a static status stub. The live server-only pattern still lives in `src/lib/server/example-api.ts` for future Vercel or server-runtime deployment.
 
 ## PWA Foundation
 
@@ -140,6 +155,19 @@ Still needed before full production PWA readiness:
 - Test install prompts on iPhone, Android, and desktop
 - Decide on an intentional offline caching strategy instead of the current starter cache
 - Add notification and background-sync logic only if you actually need them
+
+## Deployment On GitHub Pages
+
+1. Push to GitHub
+2. In GitHub, enable Pages with GitHub Actions as the source
+3. Let `.github/workflows/deploy-pages.yml` publish the site
+4. The site will deploy under `https://<owner>.github.io/<repo>` unless you use a custom domain
+
+For this repo today, the default Pages URL is:
+
+```text
+https://mikeestmxm.github.io/mh
+```
 
 ## Deployment On Vercel
 

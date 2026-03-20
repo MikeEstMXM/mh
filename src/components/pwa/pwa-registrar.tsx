@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { withBasePath } from "@/config/deployment";
 
 export function PwaRegistrar() {
   useEffect(() => {
@@ -12,7 +13,7 @@ export function PwaRegistrar() {
       return;
     }
 
-    void navigator.serviceWorker.register("/sw.js");
+    void navigator.serviceWorker.register(withBasePath("/sw.js"));
   }, []);
 
   return null;
