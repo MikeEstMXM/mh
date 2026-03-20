@@ -33,15 +33,21 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: withBasePath("/favicon.ico"), sizes: "any" },
       {
-        url: withBasePath("/icon"),
+        url: withBasePath("/icons/icon-192.png"),
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: withBasePath("/icons/icon-512.png"),
         sizes: "512x512",
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: withBasePath("/apple-icon"),
+        url: withBasePath("/apple-icon.png"),
         sizes: "180x180",
         type: "image/png",
       },
