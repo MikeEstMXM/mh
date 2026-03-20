@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 674 674" role="img" aria-label="MikeEstMXM">
+  <defs xmlns="http://www.w3.org/2000/svg">
+    <radialGradient id="bg" cx="34%" cy="28%" r="88%">
+      <stop offset="0%" stop-color="#5486ff"/>
+      <stop offset="28%" stop-color="#6672df"/>
+      <stop offset="55%" stop-color="#8a6cd8"/>
+      <stop offset="76%" stop-color="#ff9aa3"/>
+      <stop offset="90%" stop-color="#ffc86a"/>
+      <stop offset="100%" stop-color="#ffe587"/>
+    </radialGradient>
+    <radialGradient id="blueGlow" cx="30%" cy="23%" r="56%">
+      <stop offset="0%" stop-color="#92d5ff" stop-opacity="0.64"/>
+      <stop offset="58%" stop-color="#6fa8ff" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#6fa8ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sil" x1="18%" y1="10%" x2="82%" y2="90%">
+      <stop offset="0%" stop-color="#101645"/>
+      <stop offset="48%" stop-color="#141852"/>
+      <stop offset="100%" stop-color="#26195f"/>
+    </linearGradient>
+    <clipPath id="c">
+      <circle cx="336" cy="336" r="336"/>
+    </clipPath>
+  </defs>
+  <rect width="672" height="672" fill="#fff"/>
+  <g clip-path="url(#c)">
+    <circle cx="336" cy="336" r="336" fill="url(#bg)"/>
+    <circle cx="336" cy="336" r="336" fill="url(#blueGlow)"/>
+  </g>
+</svg>
