@@ -24,10 +24,19 @@ export function IdeasApplet() {
 
       if (storedValue) {
         try {
-          const parsed = JSON.parse(storedValue) as IdeaCard[];
+          const parsed: unknown = JSON.parse(storedValue);
 
-          if (Array.isArray(parsed)) {
-            setIdeas(parsed);
+          if (
+            Array.isArray(parsed) &&
+            parsed.every(
+              (item) =>
+                item !== null &&
+                typeof item === "object" &&
+                typeof (item as IdeaCard).id === "string" &&
+                typeof (item as IdeaCard).text === "string",
+            )
+          ) {
+            setIdeas(parsed as IdeaCard[]);
           }
         } catch {
           setIdeas([]);

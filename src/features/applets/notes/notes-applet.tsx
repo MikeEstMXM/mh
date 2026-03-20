@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const storageKey = "notes-applet-content";
 
 export function NotesApplet() {
   const hasLoadedStoredNote = useRef(false);
+  const saveTimestampTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [note, setNote] = useState("");
   const [lastSavedLabel, setLastSavedLabel] = useState("Waiting for your first note");
 
@@ -32,16 +33,26 @@ export function NotesApplet() {
     window.localStorage.setItem(storageKey, note);
   }, [note]);
 
+  const scheduleTimestampUpdate = useCallback((nextNote: string) => {
+    if (saveTimestampTimer.current !== null) {
+      clearTimeout(saveTimestampTimer.current);
+    }
+    saveTimestampTimer.current = setTimeout(() => {
+      setLastSavedLabel(
+        nextNote.trim()
+          ? `Saved locally at ${new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}`
+          : "Waiting for your first note",
+      );
+      saveTimestampTimer.current = null;
+    }, 600);
+  }, []);
+
   function handleChange(nextNote: string) {
     setNote(nextNote);
-    setLastSavedLabel(
-      nextNote.trim()
-        ? `Saved locally at ${new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}`
-        : "Waiting for your first note",
-    );
+    scheduleTimestampUpdate(nextNote);
   }
 
   return (
