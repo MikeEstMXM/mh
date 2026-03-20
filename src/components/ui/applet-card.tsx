@@ -11,23 +11,21 @@ export function AppletCard({ applet }: AppletCardProps) {
   return (
     <Link
       href={applet.href}
-      className="group flex flex-col rounded-2xl border border-[var(--color-outline)] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7))] p-4 transition hover:border-[var(--color-outline-strong)] hover:shadow-[0_8px_24px_rgba(22,33,38,0.07)]"
+      className="group flex flex-col bg-[var(--color-canvas)] p-4 transition-colors hover:bg-[var(--color-panel)]"
     >
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <AppletIcon name={applet.iconName} className="h-4 w-4 text-[var(--color-accent)]" />
-          <h3 className="text-sm font-medium">{applet.name}</h3>
+        <div className="flex items-center gap-1.5 min-w-0">
+          <AppletIcon name={applet.iconName} className="h-3.5 w-3.5 shrink-0 text-[var(--color-muted)]" />
+          <span className="text-sm font-medium truncate">{applet.name}</span>
         </div>
         <StatusBadge status={applet.status} />
       </div>
 
-      <p className="mt-3 text-xs leading-5 text-[var(--color-muted)]">{applet.description}</p>
+      <p className="mt-2.5 text-xs leading-5 text-[var(--color-muted)]">{applet.description}</p>
 
-      <div className="mt-auto pt-4">
-        <span className="text-xs text-[var(--color-accent)] transition group-hover:text-[var(--color-ink)]">
-          Open →
-        </span>
-      </div>
+      <span className="mt-5 text-[10px] text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-accent)]">
+        open →
+      </span>
     </Link>
   );
 }

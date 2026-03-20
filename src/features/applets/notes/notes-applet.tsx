@@ -8,7 +8,7 @@ export function NotesApplet() {
   const hasLoadedStoredNote = useRef(false);
   const saveTimestampTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [note, setNote] = useState("");
-  const [lastSavedLabel, setLastSavedLabel] = useState("Waiting for your first note");
+  const [lastSavedLabel, setLastSavedLabel] = useState("waiting for your first note");
 
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
@@ -16,7 +16,7 @@ export function NotesApplet() {
 
       if (storedNote) {
         setNote(storedNote);
-        setLastSavedLabel("Loaded from this browser");
+        setLastSavedLabel("loaded from this browser");
       }
 
       hasLoadedStoredNote.current = true;
@@ -40,11 +40,11 @@ export function NotesApplet() {
     saveTimestampTimer.current = setTimeout(() => {
       setLastSavedLabel(
         nextNote.trim()
-          ? `Saved locally at ${new Date().toLocaleTimeString([], {
+          ? `saved at ${new Date().toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             })}`
-          : "Waiting for your first note",
+          : "waiting for your first note",
       );
       saveTimestampTimer.current = null;
     }, 600);
@@ -56,30 +56,26 @@ export function NotesApplet() {
   }
 
   return (
-    <section className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-      <div className="rounded-2xl border border-[var(--color-outline)] bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(255,255,255,0.76))] p-5">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-xs text-[var(--color-muted)]">Quick note</p>
-          <span className="rounded-md bg-[var(--color-accent-soft)] px-2 py-1 text-[10px] text-[var(--color-accent)]">
-            local
-          </span>
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs text-[var(--color-muted)]">quick note</p>
+          <span className="text-[10px] text-[var(--color-accent)]">local</span>
         </div>
         <textarea
           value={note}
           onChange={(event) => handleChange(event.target.value)}
-          placeholder="Write anything you want to keep visible: a checklist, an address, a rough plan, or a reminder."
-          rows={14}
-          className="mt-4 w-full rounded-xl border border-[var(--color-outline)] bg-white px-4 py-3 text-sm leading-6 outline-none transition placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[rgba(52,113,104,0.1)]"
+          placeholder="Write anything you want to keep visible."
+          rows={16}
+          className="w-full border border-[var(--color-outline)] bg-[var(--color-panel)] px-3 py-3 text-sm leading-6 outline-none transition-colors resize-none placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)]"
         />
       </div>
 
-      <div className="space-y-3">
-        <div className="rounded-2xl border border-[var(--color-outline)] bg-[var(--color-panel)] p-5">
-          <p className="text-xs text-[var(--color-muted)]">Snapshot</p>
-          <p className="mt-3 text-xs text-[var(--color-muted)]">{lastSavedLabel}</p>
-          <p className="mt-4 text-2xl font-medium">{note.trim().length}</p>
-          <p className="mt-1 text-xs text-[var(--color-muted)]">characters</p>
-        </div>
+      <div className="border-t border-[var(--color-outline)] pt-6 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+        <p className="text-xs text-[var(--color-muted)]">snapshot</p>
+        <p className="mt-6 text-3xl font-light tabular-nums">{note.trim().length}</p>
+        <p className="mt-1 text-xs text-[var(--color-muted)]">characters</p>
+        <p className="mt-6 text-[10px] text-[var(--color-muted)]">{lastSavedLabel}</p>
       </div>
     </section>
   );

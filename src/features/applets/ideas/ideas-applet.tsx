@@ -66,10 +66,7 @@ export function IdeasApplet() {
     }
 
     setIdeas((currentIdeas) => [
-      {
-        id: crypto.randomUUID(),
-        text: trimmedDraft,
-      },
+      { id: crypto.randomUUID(), text: trimmedDraft },
       ...currentIdeas,
     ]);
     setDraft("");
@@ -80,44 +77,43 @@ export function IdeasApplet() {
   }
 
   return (
-    <section className="grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-      <form
-        onSubmit={handleSubmit}
-        className="rounded-2xl border border-[var(--color-outline)] bg-[var(--color-panel)] p-5"
-      >
-        <p className="text-xs text-[var(--color-muted)]">New idea</p>
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+      <form onSubmit={handleSubmit}>
+        <p className="text-xs text-[var(--color-muted)] mb-3">new idea</p>
         <textarea
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Describe an idea in one or two sentences."
-          rows={6}
-          className="mt-3 w-full rounded-xl border border-[var(--color-outline)] bg-white px-4 py-3 text-sm leading-6 outline-none transition placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[rgba(52,113,104,0.1)]"
+          rows={7}
+          className="w-full border border-[var(--color-outline)] bg-[var(--color-panel)] px-3 py-3 text-sm leading-6 outline-none transition-colors resize-none placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)]"
         />
         <button
           type="submit"
-          className="mt-3 inline-flex min-h-9 items-center justify-center rounded-lg bg-[var(--color-accent)] px-4 text-xs font-medium text-white transition hover:brightness-105"
+          className="mt-3 text-xs text-[var(--color-accent)] transition-colors hover:text-[var(--color-ink)]"
         >
-          Save
+          save →
         </button>
       </form>
 
-      <div className="rounded-2xl border border-[var(--color-outline)] bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(255,255,255,0.76))] p-5">
-        <p className="text-xs text-[var(--color-muted)]">{ideas.length} saved</p>
-        <div className="mt-4 space-y-2">
+      <div className="border-t border-[var(--color-outline)] pt-6 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+        <p className="text-xs text-[var(--color-muted)]">
+          {ideas.length} {ideas.length === 1 ? "idea" : "ideas"}
+        </p>
+        <div className="mt-4 border-t border-[var(--color-outline)]">
           {ideas.map((idea) => (
-            <article
+            <div
               key={idea.id}
-              className="rounded-xl border border-[var(--color-outline)] bg-white px-4 py-3"
+              className="group flex items-start gap-4 border-b border-[var(--color-outline)] py-3"
             >
-              <p className="text-sm leading-6 text-[var(--color-ink)]">{idea.text}</p>
+              <p className="flex-1 text-sm leading-6 text-[var(--color-ink)]">{idea.text}</p>
               <button
                 type="button"
                 onClick={() => removeIdea(idea.id)}
-                className="mt-2 text-xs text-[var(--color-muted)] transition hover:text-[var(--color-ink)]"
+                className="shrink-0 text-[10px] text-[var(--color-muted)] opacity-0 transition-all group-hover:opacity-100 hover:text-[var(--color-ink)]"
               >
-                Remove
+                remove
               </button>
-            </article>
+            </div>
           ))}
         </div>
       </div>

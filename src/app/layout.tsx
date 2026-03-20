@@ -67,11 +67,9 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[var(--color-canvas)] text-[var(--color-ink)]">
         <PwaRegistrar />
-        <div className="relative min-h-screen overflow-x-hidden">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(52,113,104,0.18),_transparent_65%)]" />
-          <div className="pointer-events-none absolute inset-x-0 top-24 h-80 bg-[radial-gradient(circle_at_center,_rgba(211,141,84,0.14),_transparent_70%)]" />
+        <div className="min-h-screen">
           <SiteHeader />
-          <main className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+          <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-16 pt-8 sm:px-6 lg:px-8">
             {children}
           </main>
         </div>

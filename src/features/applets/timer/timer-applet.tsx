@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { cx } from "@/lib/utils";
 
 const presets = [5, 15, 25];
 
@@ -46,35 +47,33 @@ export function TimerApplet() {
   const seconds = (secondsRemaining % 60).toString().padStart(2, "0");
 
   return (
-    <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
-      <div className="rounded-2xl border border-[var(--color-outline)] bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(255,255,255,0.76))] p-5">
-        <p className="text-xs text-[var(--color-muted)]">Focus timer</p>
-        <div className="mt-4 rounded-2xl bg-[var(--color-accent-soft)] px-5 py-8 text-center">
-          <p className="text-5xl font-medium tracking-tight text-[var(--color-ink)]">
-            {minutes}:{seconds}
-          </p>
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2">
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)]">
+      <div>
+        <p className="text-xs text-[var(--color-muted)]">focus timer</p>
+        <p className="mt-8 text-7xl font-light tabular-nums tracking-tight text-[var(--color-ink)]">
+          {minutes}:{seconds}
+        </p>
+        <div className="mt-8 flex items-center gap-5">
           <button
             type="button"
-            onClick={() => setIsRunning((currentValue) => !currentValue)}
-            className="inline-flex min-h-9 items-center justify-center rounded-lg bg-[var(--color-accent)] px-4 text-xs font-medium text-white transition hover:brightness-105"
+            onClick={() => setIsRunning((v) => !v)}
+            className="text-sm text-[var(--color-accent)] transition-colors hover:text-[var(--color-ink)]"
           >
-            {isRunning ? "Pause" : "Start"}
+            {isRunning ? "pause" : "start"}
           </button>
           <button
             type="button"
             onClick={resetTimer}
-            className="inline-flex min-h-9 items-center justify-center rounded-lg border border-[var(--color-outline)] bg-white px-4 text-xs font-medium text-[var(--color-ink)] transition hover:border-[var(--color-outline-strong)]"
+            className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)]"
           >
-            Reset
+            reset
           </button>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[var(--color-outline)] bg-[var(--color-panel)] p-5">
-        <p className="text-xs text-[var(--color-muted)]">Presets</p>
-        <div className="mt-3 grid grid-cols-3 gap-2">
+      <div className="border-t border-[var(--color-outline)] pt-6 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+        <p className="text-xs text-[var(--color-muted)]">presets</p>
+        <div className="mt-4 border-t border-[var(--color-outline)]">
           {presets.map((preset) => {
             const isSelected = selectedMinutes === preset;
 
@@ -83,13 +82,17 @@ export function TimerApplet() {
                 key={preset}
                 type="button"
                 onClick={() => selectPreset(preset)}
-                className={`min-h-12 rounded-xl border text-sm font-medium transition ${
+                className={cx(
+                  "flex w-full items-center justify-between border-b border-[var(--color-outline)] py-3 text-sm transition-colors",
                   isSelected
-                    ? "border-transparent bg-[var(--color-warm)] text-white"
-                    : "border-[var(--color-outline)] bg-white text-[var(--color-ink)] hover:border-[var(--color-outline-strong)]"
-                }`}
+                    ? "text-[var(--color-accent)]"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-ink)]",
+                )}
               >
-                {preset}m
+                <span>{preset} min</span>
+                {isSelected && (
+                  <span className="text-[10px] text-[var(--color-accent)]">selected</span>
+                )}
               </button>
             );
           })}
