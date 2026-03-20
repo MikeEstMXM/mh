@@ -1,26 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --color-canvas: #f4f1ea;
-  --color-panel: rgba(255, 255, 255, 0.82);
-  --color-panel-strong: #ffffff;
-  --color-outline: rgba(34, 42, 48, 0.12);
-  --color-outline-strong: rgba(34, 42, 48, 0.2);
-  --color-ink: #162126;
-  --color-muted: #5e6a70;
-  --color-accent: #347168;
-  --color-accent-soft: #dcebe7;
-  --color-warm: #d38d54;
-  --color-ready: #dcefe7;
-  --color-ready-ink: #205344;
-  --color-beta: #fff1de;
-  --color-beta-ink: #8f5c28;
-  --color-coming-soon: #ebe8ff;
-  --color-coming-soon-ink: #56489b;
+  --color-canvas: #f5f3ef;
+  --color-panel: #ffffff;
+  --color-outline: #ddd9d3;
+  --color-outline-strong: #b8b4ae;
+  --color-ink: #18160f;
+  --color-muted: #7a7570;
+  --color-accent: #2e6b62;
+  --color-accent-soft: #e6efed;
+  --color-warm: #b87340;
+  --color-ready: #e6efed;
+  --color-ready-ink: #1d4d40;
+  --color-beta: #f5ede0;
+  --color-beta-ink: #7a4f28;
+  --color-coming-soon: #ede8f8;
+  --color-coming-soon-ink: #4a3f88;
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-plex-mono);
   --font-mono: var(--font-plex-mono);
   --color-background: var(--color-canvas);
   --color-foreground: var(--color-ink);
@@ -36,11 +35,9 @@ html {
 
 body {
   margin: 0;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent 26%),
-    var(--color-canvas);
+  background: var(--color-canvas);
   color: var(--color-ink);
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-plex-mono), monospace;
 }
 
 a {
@@ -55,5 +52,5 @@ textarea {
 }
 
 ::selection {
-  background: rgba(52, 113, 104, 0.18);
+  background: rgba(46, 107, 98, 0.15);
 }
