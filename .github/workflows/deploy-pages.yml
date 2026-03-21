@@ -9,7 +9,7 @@ on:
     branches: ["main"]
   workflow_dispatch:
     inputs:
-      testing_branch:
+      testing_branch: ["testing-deployment-setup-Qcv4P"]
         description: "Branch to deploy at /testing/ (leave empty to skip)"
         required: false
         default: ""
