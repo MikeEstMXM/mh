@@ -9,10 +9,10 @@ on:
       branch:
         description: "Feature branch to deploy at /testing/"
         required: true
-        default: "main"
+        default: "claude/testing"
   push:
-    branches-ignore:
-      - main
+    branches:
+      - claude/testing
 
 permissions:
   contents: read

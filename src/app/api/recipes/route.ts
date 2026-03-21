@@ -77,8 +77,7 @@ export async function POST(request: Request) {
 }
 
 // ---------------------------------------------------------------------------
-// HelloFresh has a public content API that returns structured JSON —
-// far more reliable than scraping their JS-rendered pages.
+// HelloFresh content API (may require auth — falls back to JSON-LD scraping).
 // Supported domains: hellofresh.co.uk, hellofresh.com, hellofresh.de, etc.
 // ---------------------------------------------------------------------------
 async function tryHelloFreshApi(parsedUrl: URL) {
@@ -354,20 +353,26 @@ function mapJsonLdToRecipe(
   recipeData: Record<string, unknown>,
   recipe: ParsedRecipe,
 ): ParsedRecipe {
-  recipe.title = getString(recipeData, "name");
-  recipe.description = getString(recipeData, "description");
+  recipe.title = decodeHtmlEntities(getString(recipeData, "name"));
+  recipe.description = decodeHtmlEntities(getString(recipeData, "description"));
   recipe.photoUrl = extractImage(recipeData);
   recipe.prepTime = parseDuration(getString(recipeData, "prepTime"));
   recipe.cookTime = parseDuration(getString(recipeData, "cookTime"));
+
+  // Fallback: if only totalTime is present, use it as cookTime
+  if (!recipe.prepTime && !recipe.cookTime) {
+    const total = parseDuration(getString(recipeData, "totalTime"));
+    if (total > 0) recipe.cookTime = total;
+  }
   recipe.servings = parseServings(recipeData.recipeYield);
   recipe.cuisine = getString(recipeData, "recipeCuisine");
   recipe.category = getString(recipeData, "recipeCategory") || "Dinner";
 
   if (Array.isArray(recipeData.recipeIngredient)) {
-    recipe.ingredients = recipeData.recipeIngredient.map((i: unknown) => String(i).trim()).filter(Boolean);
+    recipe.ingredients = recipeData.recipeIngredient.map((i: unknown) => decodeHtmlEntities(String(i).trim())).filter(Boolean);
   }
 
-  recipe.instructions = extractInstructions(recipeData.recipeInstructions);
+  recipe.instructions = extractInstructions(recipeData.recipeInstructions).map(decodeHtmlEntities);
 
   if (recipeData.nutrition && typeof recipeData.nutrition === "object") {
     const n = recipeData.nutrition as Record<string, unknown>;
