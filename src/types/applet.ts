@@ -1,7 +1,7 @@
 export type AppletStatus = "ready" | "beta" | "coming-soon";
 export type AppletVisibility = "public" | "hidden";
-export type AppletIconName = "hub" | "ideas" | "notes" | "timer";
-export type AppletSlug = "ideas" | "notes" | "timer";
+export type AppletIconName = "hub" | "ideas" | "notes" | "timer" | "recipes";
+export type AppletSlug = "ideas" | "notes" | "timer" | "recipes";
 
 export type AppletRegistryEntry = {
   name: string;

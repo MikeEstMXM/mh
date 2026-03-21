@@ -31,6 +31,16 @@ const appletRegistry = [
     category: "Planning",
     visibility: "public",
   },
+  {
+    name: "Recipes",
+    slug: "recipes",
+    description:
+      "Import recipes from any URL into your Notion cookbook. Extracts ingredients, instructions, and metadata automatically.",
+    status: "beta",
+    iconName: "recipes",
+    category: "Kitchen",
+    visibility: "public",
+  },
 ] satisfies AppletRegistryEntry[];
 
 export const applets: AppletDefinition[] = appletRegistry.map((applet) => ({
