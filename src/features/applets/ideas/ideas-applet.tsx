@@ -24,10 +24,19 @@ export function IdeasApplet() {
 
       if (storedValue) {
         try {
-          const parsed = JSON.parse(storedValue) as IdeaCard[];
+          const parsed: unknown = JSON.parse(storedValue);
 
-          if (Array.isArray(parsed)) {
-            setIdeas(parsed);
+          if (
+            Array.isArray(parsed) &&
+            parsed.every(
+              (item) =>
+                item !== null &&
+                typeof item === "object" &&
+                typeof (item as IdeaCard).id === "string" &&
+                typeof (item as IdeaCard).text === "string",
+            )
+          ) {
+            setIdeas(parsed as IdeaCard[]);
           }
         } catch {
           setIdeas([]);
@@ -57,10 +66,7 @@ export function IdeasApplet() {
     }
 
     setIdeas((currentIdeas) => [
-      {
-        id: crypto.randomUUID(),
-        text: trimmedDraft,
-      },
+      { id: crypto.randomUUID(), text: trimmedDraft },
       ...currentIdeas,
     ]);
     setDraft("");
@@ -71,59 +77,43 @@ export function IdeasApplet() {
   }
 
   return (
-    <section className="grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-      <form
-        onSubmit={handleSubmit}
-        className="rounded-[1.75rem] border border-[var(--color-outline)] bg-[var(--color-panel)] p-5 shadow-[0_18px_36px_rgba(22,33,38,0.05)]"
-      >
-        <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--color-muted)]">
-          Add idea
-        </p>
-        <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
-          Capture a future applet or project concept.
-        </h2>
-        <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">
-          This is a local-state foundation. Later you can plug in persistence, categories, or collaboration.
-        </p>
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+      <form onSubmit={handleSubmit}>
+        <p className="text-xs text-[var(--color-muted)] mb-3">new idea</p>
         <textarea
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Describe an idea in one or two sentences."
-          rows={6}
-          className="mt-5 w-full rounded-[1.4rem] border border-[var(--color-outline)] bg-white px-4 py-3 text-base outline-none transition placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:ring-4 focus:ring-[rgba(52,113,104,0.12)]"
+          rows={7}
+          className="w-full border border-[var(--color-outline)] bg-[var(--color-panel)] px-3 py-3 text-sm leading-6 outline-none transition-colors resize-none placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)]"
         />
         <button
           type="submit"
-          className="mt-4 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--color-accent)] px-5 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(52,113,104,0.22)] transition hover:brightness-105"
+          className="mt-3 text-xs text-[var(--color-accent)] transition-colors hover:text-[var(--color-ink)]"
         >
-          Save idea
+          save →
         </button>
       </form>
 
-      <div className="rounded-[1.75rem] border border-[var(--color-outline)] bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(255,255,255,0.76))] p-5 shadow-[0_18px_36px_rgba(22,33,38,0.05)]">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--color-muted)]">
-              Idea list
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">{ideas.length} saved</h2>
-          </div>
-        </div>
-        <div className="mt-5 space-y-3">
+      <div className="border-t border-[var(--color-outline)] pt-6 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
+        <p className="text-xs text-[var(--color-muted)]">
+          {ideas.length} {ideas.length === 1 ? "idea" : "ideas"}
+        </p>
+        <div className="mt-4 border-t border-[var(--color-outline)]">
           {ideas.map((idea) => (
-            <article
+            <div
               key={idea.id}
-              className="rounded-[1.4rem] border border-[var(--color-outline)] bg-white px-4 py-4"
+              className="group flex items-start gap-4 border-b border-[var(--color-outline)] py-3"
             >
-              <p className="text-sm leading-6 text-[var(--color-ink)]">{idea.text}</p>
+              <p className="flex-1 text-sm leading-6 text-[var(--color-ink)]">{idea.text}</p>
               <button
                 type="button"
                 onClick={() => removeIdea(idea.id)}
-                className="mt-4 inline-flex min-h-10 items-center rounded-full border border-[var(--color-outline)] px-3 text-sm font-medium text-[var(--color-muted)] transition hover:border-[var(--color-outline-strong)] hover:text-[var(--color-ink)]"
+                className="shrink-0 text-[10px] text-[var(--color-muted)] opacity-0 transition-all group-hover:opacity-100 hover:text-[var(--color-ink)]"
               >
-                Remove
+                remove
               </button>
-            </article>
+            </div>
           ))}
         </div>
       </div>

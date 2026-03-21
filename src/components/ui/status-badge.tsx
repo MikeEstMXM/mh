@@ -6,21 +6,29 @@ type StatusBadgeProps = {
   children?: React.ReactNode;
 };
 
-const statusStyles: Record<AppletStatus, string> = {
-  ready: "bg-[var(--color-ready)] text-[var(--color-ready-ink)]",
-  beta: "bg-[var(--color-beta)] text-[var(--color-beta-ink)]",
-  "coming-soon": "bg-[var(--color-coming-soon)] text-[var(--color-coming-soon-ink)]",
+const dotColor: Record<AppletStatus, string> = {
+  ready: "bg-[var(--color-ready-ink)]",
+  beta: "bg-[var(--color-beta-ink)]",
+  "coming-soon": "bg-[var(--color-coming-soon-ink)]",
+};
+
+const textColor: Record<AppletStatus, string> = {
+  ready: "text-[var(--color-ready-ink)]",
+  beta: "text-[var(--color-beta-ink)]",
+  "coming-soon": "text-[var(--color-coming-soon-ink)]",
+};
+
+const label: Record<AppletStatus, string> = {
+  ready: "ready",
+  beta: "beta",
+  "coming-soon": "soon",
 };
 
 export function StatusBadge({ status, children }: StatusBadgeProps) {
   return (
-    <span
-      className={cx(
-        "inline-flex min-h-9 items-center rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.22em]",
-        statusStyles[status],
-      )}
-    >
-      {children ?? status.replace("-", " ")}
+    <span className={cx("flex items-center gap-1 shrink-0 text-[10px]", textColor[status])}>
+      <span className={cx("h-1.5 w-1.5 rounded-full shrink-0", dotColor[status])} />
+      {children ?? label[status]}
     </span>
   );
 }
