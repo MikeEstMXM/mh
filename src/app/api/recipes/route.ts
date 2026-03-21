@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     recipe = parseRecipeFromHtml(html, url);
   }
 
-  if (!recipe.title) {
+  if (!recipe || !recipe.title) {
     return NextResponse.json(
       {
         ok: false,
@@ -224,8 +224,29 @@ function mapHelloFreshToRecipe(data: Record<string, unknown>, sourceUrl: string)
 // ---------------------------------------------------------------------------
 // Generic HTML parsing — works for sites that embed JSON-LD or microdata
 // ---------------------------------------------------------------------------
-function parseRecipeFromHtml(html: string, sourceUrl: string) {
-  const recipe = {
+type ParsedRecipe = {
+  title: string;
+  category: string;
+  cuisine: string;
+  status: string;
+  prepTime: number;
+  cookTime: number;
+  servings: number;
+  difficulty: string;
+  dietaryTags: string;
+  rating: number;
+  ratingLabel: string;
+  photoUrl: string;
+  description: string;
+  ingredients: string[];
+  instructions: string[];
+  notes: string;
+  nutrition: string;
+  sourceUrl: string;
+};
+
+function parseRecipeFromHtml(html: string, sourceUrl: string): ParsedRecipe {
+  const recipe: ParsedRecipe = {
     title: "",
     category: "Dinner",
     cuisine: "",
@@ -239,8 +260,8 @@ function parseRecipeFromHtml(html: string, sourceUrl: string) {
     ratingLabel: "Unrated",
     photoUrl: "",
     description: "",
-    ingredients: [] as string[],
-    instructions: [] as string[],
+    ingredients: [],
+    instructions: [],
     notes: "",
     nutrition: "",
     sourceUrl,
@@ -331,8 +352,8 @@ function findRecipeObject(obj: unknown, depth = 0): Record<string, unknown> | nu
 
 function mapJsonLdToRecipe(
   recipeData: Record<string, unknown>,
-  recipe: ReturnType<typeof parseRecipeFromHtml>,
-) {
+  recipe: ParsedRecipe,
+): ParsedRecipe {
   recipe.title = getString(recipeData, "name");
   recipe.description = getString(recipeData, "description");
   recipe.photoUrl = extractImage(recipeData);
