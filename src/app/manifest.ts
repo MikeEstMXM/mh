@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: siteConfig.name,
     short_name: "hub",
     description: siteConfig.description,
-    start_url: withBasePath("/mh/"),
+    start_url: withBasePath("/"),
     display: "standalone",
     orientation: "portrait",
     background_color: "#f4f1ea",
