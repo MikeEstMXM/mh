@@ -45,6 +45,15 @@ export function AppletIcon({ name, className }: AppletIconProps) {
           <path d="M8 13.25c-1.36-1.03-2.25-2.66-2.25-4.5a6.25 6.25 0 1 1 12.5 0c0 1.84-.89 3.47-2.25 4.5-.62.46-1 .99-1 1.58V16a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.17c0-.59-.38-1.12-1-1.58Z" />
         </svg>
       );
+    case "recipes":
+      return (
+        <svg {...sharedProps}>
+          <path d="M12 3C7 3 4 5.5 4 8.5c0 2 1 3.5 2.5 4.5L6 21h12l-.5-8c1.5-1 2.5-2.5 2.5-4.5C20 5.5 17 3 12 3Z" />
+          <path d="M9 21v-4" />
+          <path d="M15 21v-4" />
+          <path d="M8 8.5h8" />
+        </svg>
+      );
     case "hub":
       return (
         <svg {...sharedProps}>
