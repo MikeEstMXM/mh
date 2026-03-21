@@ -1,4 +1,4 @@
-const CACHE_NAME = "personal-app-platform-v1";
+const CACHE_NAME = "personal-app-platform-v2";
 const basePath = self.location.pathname.replace(/\/sw\.js$/, "");
 const APP_SHELL = [
   `${basePath}/`,
@@ -7,9 +7,6 @@ const APP_SHELL = [
   `${basePath}/apps/ideas/`,
 ];
 
-// Foundation only:
-// replace this starter cache with a versioned offline strategy once you know
-// which routes and assets you actually want available offline.
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
   self.skipWaiting();
@@ -26,18 +23,19 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Network-first: always try the network, fall back to cache only if offline.
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") {
     return;
   }
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(event.request);
-    }),
+    fetch(event.request)
+      .then((response) => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(event.request)),
   );
 });

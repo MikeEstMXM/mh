@@ -5,15 +5,16 @@ import { withBasePath } from "@/config/deployment";
 
 export function PwaRegistrar() {
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      return;
-    }
-
     if (!("serviceWorker" in navigator)) {
       return;
     }
 
-    void navigator.serviceWorker.register(withBasePath("/sw.js"));
+    navigator.serviceWorker
+      .register(withBasePath("/sw.js"), { updateViaCache: "none" })
+      .then((reg) => {
+        // Check for updates immediately on every page load
+        void reg.update();
+      });
   }, []);
 
   return null;
