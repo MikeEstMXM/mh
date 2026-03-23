@@ -2,10 +2,10 @@
   <defs>
     <radialGradient id="bg" cx="34%" cy="28%" r="88%">
       <stop offset="0%" stop-color="#5486ff"/>
-      <stop offset="28%" stop-color="#6672df"/>
-      <stop offset="55%" stop-color="#8a6cd8"/>
-      <stop offset="76%" stop-color="#ff9aa3"/>
-      <stop offset="90%" stop-color="#ffc86a"/>
+      <stop offset="10%" stop-color="#6672df"/>
+      <stop offset="32%" stop-color="#8a6cd8"/>
+      <stop offset="64%" stop-color="#ff9aa3"/>
+      <stop offset="80%" stop-color="#ffc86a"/>
       <stop offset="100%" stop-color="#ffe587"/>
     </radialGradient>
     <radialGradient id="blueGlow" cx="30%" cy="23%" r="56%">

@@ -9,6 +9,7 @@ import { cx } from "@/lib/utils";
 export function SiteHeader() {
   const pathname = usePathname();
 
+<<<<<<< HEAD
   if (pathname === "/") return null;
 
   return (
@@ -21,6 +22,18 @@ export function SiteHeader() {
           {siteConfig.name}
         </Link>
 
+=======
+  return (
+    <header className="border-b border-[var(--color-outline)]">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-1 px-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="mr-3 py-3 text-sm font-medium shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+        >
+          {siteConfig.name}
+        </Link>
+
+>>>>>>> main
         <span className="text-[var(--color-outline-strong)] select-none mr-2">/</span>
 
         <nav className="flex overflow-x-auto">

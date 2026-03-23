@@ -9,7 +9,11 @@ on:
     branches: ["main"]
   workflow_dispatch:
     inputs:
+<<<<<<< HEAD
       testing_branch:
+=======
+      testing_branch: 
+>>>>>>> main
         description: "Branch to deploy at /testing/ (leave empty to skip)"
         required: false
         default: ""
