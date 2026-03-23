@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { withBasePath } from "@/config/deployment";
+import { getApiPassword } from "@/lib/client/api-password";
 
 type RecipeResult = {
   ok: boolean;
@@ -35,9 +36,13 @@ export function RecipesApplet() {
     setResult(null);
 
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      const pw = getApiPassword();
+      if (pw) headers["x-api-password"] = pw;
+
       const res = await fetch(withBasePath("/api/recipes"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ url: url.trim() }),
       });
       if (!res.ok && res.headers.get("content-type")?.includes("text/html")) {

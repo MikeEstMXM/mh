@@ -21,7 +21,7 @@ export function SiteHeader() {
 
         <span className="text-[var(--color-outline-strong)] select-none mr-2">/</span>
 
-        <nav className="flex overflow-x-auto">
+        <nav className="flex flex-1 overflow-x-auto">
           <NavLink href="/" label="home" isActive={pathname === "/"} />
           {visibleApplets.map((applet) => (
             <NavLink
@@ -31,6 +31,12 @@ export function SiteHeader() {
               isActive={pathname === applet.href}
             />
           ))}
+          <span className="flex-1" />
+          <NavLink
+            href="/settings"
+            label="settings"
+            isActive={pathname === "/settings"}
+          />
         </nav>
       </div>
     </header>

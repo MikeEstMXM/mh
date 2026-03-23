@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import { getNotionConfig, createNotionRecipe } from "@/lib/server/notion";
 
 export async function POST(request: Request) {
+  const requiredPassword = process.env.API_PASSWORD;
+  if (requiredPassword) {
+    const provided = request.headers.get("x-api-password") ?? "";
+    if (provided !== requiredPassword) {
+      return NextResponse.json(
+        { ok: false, error: "Invalid API password. Check Settings." },
+        { status: 401 },
+      );
+    }
+  }
+
   const config = getNotionConfig();
   if (!config) {
     return NextResponse.json(
