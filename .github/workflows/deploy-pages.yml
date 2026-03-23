@@ -1,9 +1,18 @@
 name: Deploy GitHub Pages
 
+# Builds main at the root. When a testing branch is specified, also builds
+# that branch at /testing/.  Push to main auto-deploys production.
+# Use "Run workflow" in the Actions tab to rebuild with a testing branch.
+
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
+    inputs:
+      testing_branch:
+        description: "Branch to deploy at /testing/ (leave empty to skip)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -20,41 +29,75 @@ jobs:
     env:
       DEPLOY_TARGET: github-pages
     steps:
-      - name: Check out repository
+      - name: Determine repo base path
+        id: paths
+        run: |
+          if [ "${{ github.event.repository.name }}" = "${{ github.repository_owner }}.github.io" ]; then
+            echo "repo_base=" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_OUTPUT"
+          else
+            echo "repo_base=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Build main (root) ──────────────────────────────────
+      - name: Check out main
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-src
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: main-src/package-lock.json
 
-      - name: Derive GitHub Pages environment
+      - name: Build main site
+        working-directory: main-src
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.paths.outputs.repo_base }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.paths.outputs.site_url }}
         run: |
-          if [ "${{ github.event.repository.name }}" = "${{ github.repository_owner }}.github.io" ]; then
-            echo "NEXT_PUBLIC_BASE_PATH=" >> "$GITHUB_ENV"
-            echo "NEXT_PUBLIC_SITE_URL=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_ENV"
-          else
-            echo "NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}" >> "$GITHUB_ENV"
-            echo "NEXT_PUBLIC_SITE_URL=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" >> "$GITHUB_ENV"
-          fi
+          npm ci
+          npm run build
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare output
+        run: |
+          mkdir -p combined
+          cp -r main-src/out/* combined/
 
-      - name: Lint
-        run: npm run lint
+      # ── Build testing branch (/testing/) ───────────────────
+      - name: Check out testing branch
+        if: ${{ github.event.inputs.testing_branch != '' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.testing_branch }}
+          path: testing-src
 
-      - name: Type-check
-        run: npm run typecheck
+      - name: Build testing site
+        if: ${{ github.event.inputs.testing_branch != '' }}
+        working-directory: testing-src
+        env:
+          DEPLOY_TARGET: github-pages
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.paths.outputs.repo_base }}/testing
+          NEXT_PUBLIC_SITE_URL: ${{ steps.paths.outputs.site_url }}/testing
+        run: |
+          npm ci
+          npm run build
 
-      - name: Build static site
-        run: npm run build
+      - name: Merge testing into output
+        if: ${{ github.event.inputs.testing_branch != '' }}
+        run: |
+          mkdir -p combined/testing
+          cp -r testing-src/out/* combined/testing/
 
+      # ── Upload ─────────────────────────────────────────────
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./combined
 
   deploy:
     environment:

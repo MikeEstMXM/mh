@@ -40,10 +40,22 @@ export function RecipesApplet() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: url.trim() }),
       });
+      if (!res.ok && res.headers.get("content-type")?.includes("text/html")) {
+        setResult({
+          ok: false,
+          error:
+            "Recipe import requires a server deployment. This feature is not available on static sites (GitHub Pages).",
+        });
+        return;
+      }
       const data = await res.json();
       setResult(data);
     } catch {
-      setResult({ ok: false, error: "Network error. Please try again." });
+      setResult({
+        ok: false,
+        error:
+          "Could not reach the recipe API. If this is a static deployment (GitHub Pages), recipe import requires a server.",
+      });
     } finally {
       setLoading(false);
     }
