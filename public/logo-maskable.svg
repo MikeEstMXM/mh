@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 674 674" role="img" aria-label="MikeEstMXM">
-  <defs xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 672 672" role="img" aria-label="MikeEstMXM">
+  <defs>
     <radialGradient id="bg" cx="34%" cy="28%" r="88%">
       <stop offset="0%" stop-color="#5486ff"/>
       <stop offset="28%" stop-color="#6672df"/>
@@ -14,7 +14,6 @@
       <stop offset="100%" stop-color="#6fa8ff" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <rect width="672" height="672" fill="#fff"/>
   <g>
     <circle cx="336" cy="336" r="336" fill="url(#bg)"/>
     <circle cx="336" cy="336" r="336" fill="url(#blueGlow)"/>

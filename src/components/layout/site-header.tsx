@@ -9,6 +9,8 @@ import { cx } from "@/lib/utils";
 export function SiteHeader() {
   const pathname = usePathname();
 
+  if (pathname === "/") return null;
+
   return (
     <header className="border-b border-[var(--color-outline)]">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-1 px-4 sm:px-6 lg:px-8">
