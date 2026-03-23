@@ -14,11 +14,11 @@
       <stop offset="100%" stop-color="#6fa8ff" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="c">
-      <circle cx="336" cy="336" r="336"/>
+      <circle cx="336" cy="336" r="310"/>
     </clipPath>
   </defs>
   <g clip-path="url(#c)">
-    <circle cx="336" cy="336" r="336" fill="url(#bg)"/>
-    <circle cx="336" cy="336" r="336" fill="url(#blueGlow)"/>
+    <circle cx="336" cy="336" r="310" fill="url(#bg)"/>
+    <circle cx="336" cy="336" r="310" fill="url(#blueGlow)"/>
   </g>
 </svg>
